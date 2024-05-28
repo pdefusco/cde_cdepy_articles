@@ -4,7 +4,7 @@ To manage job dependencies, Cloudera Data Engineering (CDE) supports creating cu
 
 A resource is a named collection of files or other resources referenced by a job. The airflow-python-env resource type allows you to specify a requirements.txt file that defines an environment that you can then activate globally for airflow deployments in a virtual cluster.
 
-## Create a Maintenance Session
+## End to End Example
 
 Install CDEPY==0.1.9 or above in your machine.
 
