@@ -1,1 +1,3 @@
-# cde_cdepy_articles
+# CDE CDEPY Articles
+
+A collection of articles showcasing how to use CDEPY. 
