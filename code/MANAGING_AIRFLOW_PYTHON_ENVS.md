@@ -6,7 +6,9 @@ A resource is a named collection of files or other resources referenced by a job
 
 You can install and use custom python packages for Airflow with Cloudera Data Engineering (CDE). Typically this feature is used in order to install third party Airflow providers in CDE. However, it can also be used to install any Python package and use it within the DAG logic.
 
-In this example you will create a CDE Airflow Python environment with the Amazon Provider for Airflow. Then, you will deploy an Airflow DAG that creates an S3 bucket, reads a txt file from a CDE Files Resource and writes it to the S3 bucket, launches a CDE Spark Job and finally deletes the S3 bucket.
+CDEPY is a package that allows you to do all the above with the convenience of Python. With it you can remotely connect to a Virtual Cluster from your local machine or 3rd party tool as long as it supports Python. It is available on PyPi at this URL and can be easily installed with a "pip install cdepy" command.
+
+In this example you will use CDEPY in order to create a CDE Airflow Python environment with the Amazon Provider for Airflow. Then, you will deploy an Airflow DAG that creates an S3 bucket, reads a txt file from a CDE Files Resource and writes it to the S3 bucket, launches a CDE Spark Job and finally deletes the S3 bucket.
 
 ### Requirements
 

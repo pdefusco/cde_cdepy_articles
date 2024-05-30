@@ -2,6 +2,10 @@
 
 Git repositories allow teams to collaborate, manage project artifacts, and promote applications from lower to higher environments. Cloudera currently supports Git providers such as GitHub, GitLab, and Bitbucket. Learn how to use Cloudera Data Engineering (CDE) with version control service.
 
+CDEPY is a package that allows you to do all the above with the convenience of Python. With it you can remotely connect to a Virtual Cluster from your local machine or 3rd party tool as long as it supports Python. It is available on PyPi at this URL and can be easily installed with a "pip install cdepy" command.
+
+In this tutorial you will use CDEPY in order to create a CDE Repository from a Git repository and create a CDE Spark Job using the PySpark script loaded in the repository.  
+
 ### Requirements
 
 * A CDE Service with Version 1.21 or above.
