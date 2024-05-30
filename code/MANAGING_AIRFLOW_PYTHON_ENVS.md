@@ -123,8 +123,6 @@ myCdeClusterManager = cdemanager.CdeClusterManager(myCdeConnection)
 
 myCdeClusterManager.createResource(myCdeFilesResourceDefinition)
 myCdeClusterManager.uploadFileToResource(CDE_RESOURCE_NAME, LOCAL_FILE_PATH, LOCAL_FILE_NAME)
-
-##cde resource create --name my_pipeline_resource   
 ```
 
 Create files resource.
@@ -141,8 +139,6 @@ LOCAL_FILE_NAME = "my_file.txt"
 
 myCdeClusterManager.createResource(myCdeFilesResourceDefinition)
 myCdeClusterManager.uploadFileToResource(CDE_RESOURCE_NAME, LOCAL_FILE_PATH, LOCAL_FILE_NAME)
-
-##cde resource create --name my_file_resource
 ```
 
 Create a CDE Spark Job along with its resource:
