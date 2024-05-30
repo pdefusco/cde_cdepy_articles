@@ -1,3 +1,3 @@
 # CDE CDEPY Articles
 
-A collection of articles showcasing how to use CDEPY. 
+A collection of articles showcasing how to use CDEPY.

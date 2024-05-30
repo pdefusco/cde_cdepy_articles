@@ -15,6 +15,9 @@ Import cdepy modules and set environment variables:
 ```
 from cdepy import cdeconnection
 from cdepy import cdeairflowpython
+from cdepy import cderepositories
+from cdepy import cdejob
+from cdepy import cdemanager
 import os
 import json
 
@@ -53,13 +56,13 @@ myRepoManager.createRepository(repoName, repoPath, repoBranch="main")
 Show available CDE repositories.
 
 ```
-myRepoManager.listRepositories()
+json.loads(myRepoManager.listRepositories())
 ```
 
 Show CDE Repository Metadata.
 
 ```
-myRepoManager.describeRepository(repoName)
+json.loads(myRepoManager.describeRepository(repoName))
 ```
 
 Download file from CDE Repository.
@@ -78,7 +81,58 @@ myRepoManager.deleteRepository(repoName)
 Validate CDE Repository Deletion.
 
 ```
-myRepoManager.listRepositories()
+json.loads(myRepoManager.listRepositories())
+```
+
+Create a CDE Spark Job from a CDE Repository:
+
+```
+CDE_JOB_NAME = "sparkJobFromRepo"
+
+#Set path of PySpark script inside the CDE Repository:
+applicationFilePath = "simple-pyspark-sql.py"
+
+myCdeSparkJob = cdejob.CdeSparkJob(myCdeConnection)
+myCdeSparkJobDefinition = myCdeSparkJob.createJobDefinition(CDE_JOB_NAME=CDE_JOB_NAME, \
+                                                            CDE_RESOURCE_NAME=repoName, \
+                                                            APPLICATION_FILE_NAME=applicationFilePath, \
+                                                            executorMemory="2g", \
+                                                            executorCores=2)
+
+myCdeClusterManager = cdemanager.CdeClusterManager(myCdeConnection)
+myCdeClusterManager.createJob(myCdeSparkJobDefinition)
+myCdeClusterManager.runJob(CDE_JOB_NAME)
+```
+
+Optional: update code in "simple-pyspark-sql.py" in git repository.
+Then pull from git repo to CDE repo in order to load code changes.
+
+```
+myRepoManager.pullRepository(repoName)
+```
+
+Describe CDE repository again. Notice changes to metadata.
+
+```
+json.loads(myRepoManager.describeRepository(repoName))
+```
+
+Download file from CDE Repository.
+
+```
+myRepoManager.downloadFileFromRepo(repoName, filePath)
+```
+
+Delete CDE Repository.
+
+```
+myRepoManager.deleteRepository(repoName)
+```
+
+Validate CDE Repository Deletion.
+
+```
+json.loads(myRepoManager.listRepositories())
 ```
 
 ## References
