@@ -62,7 +62,7 @@ The output should be ```{"status":"pip-repos-defined"}```.
 Load requirements.txt file
 
 ```
-pathToRequirementsTxt = "/examples/requirements.txt"
+pathToRequirementsTxt = "/resources/requirements.txt"
 myAirflowPythonEnvManager.buildAirflowPythonEnv(pathToRequirementsTxt)
 ```
 
@@ -99,6 +99,89 @@ myAirflowPythonEnvManager.checkAirflowPythonEnvStatus()
 ```
 
 The response should be ```{"status":"activating"}```. The maintenance session will then end after a couple of minutes. This means that the environment has been activated.
+
+Once the Airlfow Python environment has activated, you can create a CDE Airflow Job.
+
+First, create pipeline resource and upload the dag to it:
+
+```
+CDE_RESOURCE_NAME = "my_pipeline_resource"
+myCdeFilesResource = cderesource.CdeFilesResource(CDE_RESOURCE_NAME)
+myCdeFilesResourceDefinition = myCdeFilesResource.createResourceDefinition()
+
+LOCAL_FILE_PATH = "resources"
+LOCAL_FILE_NAME = "s3BucketDag.py"
+
+myCdeClusterManager = cdemanager.CdeClusterManager(myCdeConnection)
+
+myCdeClusterManager.createResource(myCdeFilesResourceDefinition)
+myCdeClusterManager.uploadFileToResource(CDE_RESOURCE_NAME, LOCAL_FILE_PATH, LOCAL_FILE_NAME)
+
+##cde resource create --name my_pipeline_resource   
+```
+
+Create files resource.
+
+The Airflow DAG will use the S3BucketOperator and the BashOperator to read the file from the CDE Files Reosurce and write it in an S3 bucket.
+
+```
+CDE_RESOURCE_NAME = "my_file_resource"
+myCdeFilesResource = cderesource.CdeFilesResource(CDE_RESOURCE_NAME)
+myCdeFilesResourceDefinition = myCdeFilesResource.createResourceDefinition()
+
+LOCAL_FILE_PATH = "resources"
+LOCAL_FILE_NAME = "my_file.txt"
+
+myCdeClusterManager.createResource(myCdeFilesResourceDefinition)
+myCdeClusterManager.uploadFileToResource(CDE_RESOURCE_NAME, LOCAL_FILE_PATH, LOCAL_FILE_NAME)
+
+##cde resource create --name my_file_resource
+```
+
+Create a CDE Spark Job along with its resource:
+
+```
+CDE_RESOURCE_NAME = "my_script_resource"
+myCdeFilesResource = cderesource.CdeFilesResource(CDE_RESOURCE_NAME)
+myCdeFilesResourceDefinition = myCdeFilesResource.createResourceDefinition()
+
+LOCAL_FILE_PATH = "resources"
+LOCAL_FILE_NAME = "pysparksql.py"
+
+myCdeClusterManager.createResource(myCdeFilesResourceDefinition)
+myCdeClusterManager.uploadFileToResource(CDE_RESOURCE_NAME, LOCAL_FILE_PATH, LOCAL_FILE_NAME)
+myCdeClusterManager.createJob(myCdeSparkJobDefinition)
+
+CDE_JOB_NAME = "simple-pyspark"
+
+myCdeSparkJob = cdejob.CdeSparkJob(myCdeConnection)
+myCdeSparkJobDefinition = myCdeSparkJob.createJobDefinition(CDE_JOB_NAME, CDE_RESOURCE_NAME, APPLICATION_FILE_NAME=LOCAL_FILE_NAME, executorMemory="2g", executorCores=2)
+```
+
+Create & Run CDE Airflow Job:
+
+```
+CDE_JOB_NAME = "PythonEnvDag"
+DAG_FILE = "s3BucketDag.py"
+CDE_RESOURCE_NAME = "my_pipeline_resource"
+
+myCdeAirflowJob = cdejob.CdeAirflowJob(myCdeConnection)
+myCdeAirflowJobDefinition = myCdeAirflowJob.createJobDefinition(CDE_JOB_NAME, DAG_FILE, CDE_RESOURCE_NAME)
+
+myCdeClusterManager.createJob(myCdeAirflowJobDefinition)
+
+#cde job create --name my_pipeline --type airflow --dag-file aws_dag_full.py --mount-1-resource my_pipeline_resource --airflow-file-mount-1-resource my_file_resource
+
+#cde job run --name my_pipeline
+```
+
+
+
+
+
+
+
+
 
 Optional: Create a new session and then delete the Python environment
 
