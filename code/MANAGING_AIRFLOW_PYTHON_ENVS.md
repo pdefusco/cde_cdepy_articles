@@ -14,7 +14,7 @@ In this example you will create a CDE Airflow Python environment with the Amazon
 * A local machine with Python and the latest version of the cdepy Python package installed.
 
 ```
-pip install cdepy==0.1.9
+pip install cdepy
 ```
 
 ### End to End Example
