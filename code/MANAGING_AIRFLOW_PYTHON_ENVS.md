@@ -4,13 +4,20 @@ To manage job dependencies, Cloudera Data Engineering (CDE) supports creating cu
 
 A resource is a named collection of files or other resources referenced by a job. The airflow-python-env resource type allows you to specify a requirements.txt file that defines an environment that you can then activate globally for airflow deployments in a virtual cluster.
 
-## End to End Example
+You can install and use custom python packages for Airflow with Cloudera Data Engineering (CDE). Typically this feature is used in order to install third party Airflow providers in CDE. However, it can also be used to install any Python package and use it within the DAG logic.
 
-Install CDEPY==0.1.9 or above in your machine.
+In this example you will create a CDE Airflow Python environment with the Amazon Provider for Airflow. Then, you will deploy an Airflow DAG that creates an S3 bucket, reads a txt file from a CDE Files Resource and writes it to the S3 bucket, launches a CDE Spark Job and finally deletes the S3 bucket.
+
+### Requirements
+
+* A CDE Service with Version 1.21 or above.
+* A local machine with Python and the latest version of the cdepy Python package installed.
 
 ```
 pip install cdepy==0.1.9
 ```
+
+### End to End Example
 
 Import cdepy modules and set environment variables:
 
@@ -169,31 +176,22 @@ myCdeAirflowJob = cdejob.CdeAirflowJob(myCdeConnection)
 myCdeAirflowJobDefinition = myCdeAirflowJob.createJobDefinition(CDE_JOB_NAME, DAG_FILE, CDE_RESOURCE_NAME)
 
 myCdeClusterManager.createJob(myCdeAirflowJobDefinition)
-
-#cde job create --name my_pipeline --type airflow --dag-file aws_dag_full.py --mount-1-resource my_pipeline_resource --airflow-file-mount-1-resource my_file_resource
-
-#cde job run --name my_pipeline
+myCdeClusterManager.runJob(CDE_JOB_NAME)
 ```
 
-
-
-
-
-
-
-
-
-Optional: Create a new session and then delete the Python environment
+Optional: Create a new Maintenance Session in order to delete the Python environment
 
 ```
+myAirflowPythonEnvManager.createMaintenanceSession()
 myAirflowPythonEnvManager.deleteAirflowPythonEnv()
 ```
 
 Optional: End the Maintenance Session once you have deleted the Python environment
+
 ```
 myAirflowPythonEnvManager.deleteMaintenanceSession()
 ```
 
-## References
+### References
 
 [Documentation](https://docs.cloudera.com/data-engineering/1.5.3/orchestrate-workflows/topics/cde-custom-python-airflow.html)
