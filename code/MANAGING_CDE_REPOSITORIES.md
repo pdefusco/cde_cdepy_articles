@@ -145,3 +145,7 @@ json.loads(myRepoManager.listRepositories())
 ## References
 
 [Documentation](https://docs.cloudera.com/data-engineering/1.5.3/manage-jobs/topics/cde-git-repo.html)
+
+[Introductory Article to CDEPY](https://community.cloudera.com/t5/Community-Articles/CDEPY-a-Python-Package-to-work-with-Cloudera-Data/ta-p/378015)
+
+[CDEPY on PyPi](https://pypi.org/project/cdepy/)

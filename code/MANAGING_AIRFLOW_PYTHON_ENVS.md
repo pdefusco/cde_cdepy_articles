@@ -193,3 +193,7 @@ myAirflowPythonEnvManager.deleteMaintenanceSession()
 ### References
 
 [Documentation](https://docs.cloudera.com/data-engineering/1.5.3/orchestrate-workflows/topics/cde-custom-python-airflow.html)
+
+[Introductory Article to CDEPY](https://community.cloudera.com/t5/Community-Articles/CDEPY-a-Python-Package-to-work-with-Cloudera-Data/ta-p/378015)
+
+[CDEPY on PyPi](https://pypi.org/project/cdepy/)
