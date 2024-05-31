@@ -1,6 +1,8 @@
 ## Managing Airflow Python Environments with CDEPY
 
-To manage job dependencies, Cloudera Data Engineering (CDE) supports creating custom Python environments dedicated to Airflow using the airflow-python-env resource type. With this option, you can install custom libraries for running your Directed Acyclic Graphs (DAGs). The supported version is Python 3.8.
+CDP Data Engineering (CDE) is the only cloud-native service purpose-built for enterprise data engineering teams. Building on Apache Spark, Data Engineering is an all-inclusive data engineering toolset that enables orchestration automation with Apache Airflow, advanced pipeline monitoring, visual troubleshooting, and comprehensive management tools to streamline ETL processes across enterprise analytics teams.
+
+To manage job dependencies, CDE supports creating custom Python environments dedicated to Airflow using the airflow-python-env resource type. With this option, you can install custom libraries for running your Directed Acyclic Graphs (DAGs). The supported version is Python 3.8.
 
 A resource is a named collection of files or other resources referenced by a job. The airflow-python-env resource type allows you to specify a requirements.txt file that defines an environment that you can then activate globally for airflow deployments in a virtual cluster.
 
@@ -29,7 +31,7 @@ from cdepy import cdeairflowpython
 import os
 import json
 
-Connect via CdeConnection Object
+#Connect via CdeConnection Object
 JOBS_API_URL = "<myJobsAPIurl>"
 WORKLOAD_USER = "<myusername>"
 WORKLOAD_PASSWORD = "<mypwd>"
