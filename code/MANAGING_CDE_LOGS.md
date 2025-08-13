@@ -1,4 +1,4 @@
-## Downloading CDE Job Logs with CDEPY
+## Managing CDE Job Logs with CDEPY
 
 CDP Data Engineering (CDE) is the only cloud-native service purpose-built for enterprise data engineering teams. Building on Apache Spark, Data Engineering is an all-inclusive data engineering toolset that enables orchestration automation with Apache Airflow, advanced pipeline monitoring, visual troubleshooting, and comprehensive management tools to streamline ETL processes across enterprise analytics teams.
 
@@ -81,16 +81,45 @@ sparkEventLogsClean = utils.sparkEventLogParser(sparkEventLogs)
 print(sparkEventLogsClean)
 ```
 
-### End to End Application for All Runs across multiple CDE Virtual Clusters
+### End to End Application for All Spark Runs across multiple CDE Virtual Clusters
 
 We now apply the same code to a Python script that will iterate through multiple CDE Virtual Clusters and download logs locally as txt files.
 
 Run the script with:
 
 ```
-python downloadAllLogs.py
+python logFetcher.py \
+  --user <your-cdp-workload-user> \
+  --password <your-cdp-workload-password> \
+  --api-urls https://cluster1.example.com/dex/api/v1 https://cluster2.example.com/dex/api/v1
+```
+
+Optionally set the type of Spark log you'd like to retrieve, for example 'driver/event':
+
+```
+python logFetcher.py \
+  --user <your-cdp-workload-user> \
+  --password <your-cdp-workload-password> \
+  --api-urls https://cluster1.example.com/dex/api/v1 https://cluster2.example.com/dex/api/v1 \
+  --log-type driver/stdout
+```
+
+For example this command will result in the following folder structure:
+
+```
+python logFetcher.py \
+  --user pauldefusco \
+  --password mypassword \
+  --api-urls https://55f9q9ww.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1 https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 ```
-
+logs/
+└── 12345/
+    ├── driver-stdout/
+    │   └── cluster1_example_com.log
+    ├── executor_1-stdout/
+    │   └── cluster1_example_com.log
+    └── executor_10-stdout/
+        └── cluster1_example_com.log
 ```
