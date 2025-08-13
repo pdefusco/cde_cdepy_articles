@@ -35,7 +35,7 @@ def get_hostname_from_url(url):
 
 def write_logs_to_file(job_id, log_type, hostname, log_data):
     safe_log_type = log_type.replace('/', '-')
-    output_dir = os.path.join("logs", job_id, safe_log_type)
+    output_dir = os.path.join("logs", hostname, job_id, safe_log_type)
     os.makedirs(output_dir, exist_ok=True)
 
     file_path = os.path.join(output_dir, f"{hostname}.log")
